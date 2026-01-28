@@ -66,3 +66,24 @@ pip install pyinstaller
 
 # 执行打包命令 (隐藏控制台窗口)
 pyinstaller -F -w --clean --name "Rclone助手" rc.py
+
+
+set CGO_ENABLED=0
+set GOOS=windows
+set GOARCH=amd64
+go clean -cache
+go mod tidy
+go build -v -trimpath -ldflags "-s -w" -tags cmount -o rclone-win7-64.exe .
+
+
+set CGO_ENABLED=0
+set GOOS=windows
+set GOARCH=386
+go clean -cache
+go mod tidy
+go build -v -trimpath -ldflags "-s -w" -tags cmount -o rclone-win7-32.exe .
+
+
+# 压缩当前目录下所有的 exe
+upx --best --lzma *.exe
+
